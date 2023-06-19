@@ -1,23 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="main.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="main.js"></script>
-</head>
+  <body class="p-4">
+    <div>
+      <textarea
+        id="textAreaOriginal"
+        cols="50"
+        rows="5"
+        placeholder="Write the text to translate here."
+      ></textarea>
+      <textarea
+        id="textAreaTranslation"
+        cols="50"
+        rows="5"
+        placeholder="The translation will be displayed here."
+      ></textarea>
+    </div>
+    <div>
+      <span>Source language: </span>
+      <select id="sourceLanguageCombo">
+        <option value="DE">DE</option>
+        <option value="EN">EN</option>
+        <option value="FR">FR</option>
+      </select>
+    </div>
+    <div>
+      <span>Target language:</span>
+      <select id="targetLanguageCombo">
+        <option value="DE">DE</option>
+        <option value="EN">EN</option>
+        <option value="FR">FR</option>
+        <option value="RO">RO</option>
+      </select>
+    </div>
+    <button id="submitbutton" class="btn btn-primary">Translate field using eTrans</button>
 
-<body class="p-4">
-
-  <button class="btn btn-primary">
-    Primary button
-  </button>
-
-  <button class="btn btn-secondary">
-    Secondary button
-  </button>
-
-</body>
-
+    <script>
+    $("submitbutton").click(function(event) {
+    $.ajax({
+        url : "[Your server address]/receiveRequest",
+        data : {
+                    textToTranslate : $('#textAreaOriginal').val(),
+                    sourceLanguage : $('#sourceLanguageCombo').val(),
+                    targetLanguage : $('#targetLanguageCombo').val()
+                },
+        type : 'POST',
+        success : function(data) {
+            if(data > 0){
+                refresh(data, 5);
+            }
+        }
+    });
+});
+    </script>
+  </body>
 </html>
